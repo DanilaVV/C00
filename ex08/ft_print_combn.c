@@ -1,4 +1,5 @@
 #include<unistd.h>
+#include<stdio.h>
 
 void	ft_putch(char c)
 {
@@ -22,21 +23,53 @@ int	ft_max(int n)
 	return (res);
 }
 
+int	indicate(int n)
+{
+	int	nb;
+
+	nb = n % 10;
+	if(n/10 == 0 && n!=0)
+		return(0);
+	while(n != 0)
+	{
+	n/=10;
+	if(nb <= (n%10))
+		return (1);
+	nb = n % 10;
+	}
+	return (0);
+}
+
 void	ft_print_combn(int n)
 {
 	int	i;
-	int	n_clone;
-	int	d1;
-	int	d2;
+	int	j;
+	int	nb;
 
 	i = 1;
-	max = ft_max(n) / 10;
 	while(i < ft_max(n))
 	{
-		while(max > 0)
+		nb = ft_max(n) / 10;
+		if (!indicate(i))
 		{
-			d1 = i / max;
-			d2 = (i / (max/10))%10;
+			j = i;
+			while(nb)
+			{
+				ft_putch('0'+j/nb);
+				if(j/nb != 0)
+					j = j - (j / nb) * nb;
+				nb /= 10;
+			}
+			if(i / (ft_max(n) / 10) == 10 - n && (i % 10 == 9))
+				break;
+			ft_putcoma();
 		}
+		i++;
 	}
+}
+
+int	main(void)
+{
+	ft_print_combn(3);
+	return(0);
 }
